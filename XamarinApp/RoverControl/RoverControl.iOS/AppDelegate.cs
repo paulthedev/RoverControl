@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using nexus.protocols.ble;
 using UIKit;
 
 namespace RoverControl.iOS
@@ -23,7 +24,7 @@ namespace RoverControl.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(BluetoothLowEnergyAdapter.ObtainDefaultAdapter()));
 
             return base.FinishedLaunching(app, options);
         }

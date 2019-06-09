@@ -6,7 +6,8 @@ namespace RoverControl.Models
 {
     public enum MenuItemType
     {
-        Browse,
+        Drive,
+        Connect,
         About
     }
     public class HomeMenuItem
