@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using RoverControl.Services;
 using RoverControl.Views;
 using nexus.protocols.ble;
 
@@ -14,7 +13,6 @@ namespace RoverControl
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             MainPage = new MainPage(ble);
         }
 

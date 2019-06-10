@@ -6,10 +6,56 @@
              mc:Ignorable="d"
              x:Class="RoverControl.Views.DrivePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout BackgroundColor="#808080" Padding="50">
+            <Grid x:Name="LayoutRoot">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                </Grid.RowDefinitions>'
+                <Slider VerticalOptions="CenterAndExpand" Maximum="100" Grid.Column="0"  Grid.Row="0"/>
+                <Label Text="Accleration" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri"  Grid.Column="0" Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
+                <Grid x:Name="BottomLeft" Grid.Row="1" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ImageButton x:Name="Right" Source="ArrowIcon" Rotation="90" Grid.Column="0"  Grid.Row="0"/>
+                    <ImageButton x:Name="Left" Source="ArrowIcon" Rotation="-90" Grid.Column="1" Grid.Row="0"/>
+                    <Switch Grid.Column="0" Grid.Row="1" VerticalOptions="CenterAndExpand"/>
+                    <Label Text="Motion Control" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="TopRight" Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ImageButton x:Name="Up" Source="ArrowIcon" Rotation="180" Grid.Column="1"  Grid.Row="0"/>
+                </Grid>
+                <Grid x:Name="BottomRight" Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ImageButton x:Name="Down" Source="ArrowIcon" Grid.Column="1" Grid.Row="0"/>
+                </Grid>
+                
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

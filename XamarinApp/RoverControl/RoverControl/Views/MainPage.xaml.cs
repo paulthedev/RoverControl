@@ -26,7 +26,7 @@ namespace RoverControl.Views
             MasterBehavior = MasterBehavior.Popover;
 
             //MenuPages.Add((int)MenuItemType.Drive, (NavigationPage)Detail);
-            NavigateFromMenu((int)MenuItemType.Drive);
+            _ = NavigateFromMenu((int)MenuItemType.Drive);
         }
 
         public async Task NavigateFromMenu(int id)

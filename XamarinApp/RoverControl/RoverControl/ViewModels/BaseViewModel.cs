@@ -6,13 +6,11 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 using RoverControl.Models;
-using RoverControl.Services;
 
 namespace RoverControl.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
 
         bool isBusy = false;
         public bool IsBusy
