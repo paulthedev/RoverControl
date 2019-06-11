@@ -16,7 +16,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="2*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Slider VerticalOptions="CenterAndExpand" Maximum="100" Grid.Column="0"  Grid.Row="0"/>
+                <Slider x:Name="Accleration" VerticalOptions="CenterAndExpand" Maximum="255" ValueChanged="Accleration_ValueChanged" Grid.Column="0"  Grid.Row="0"/>
                 <Label Text="Accleration" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri"  Grid.Column="0" Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
                 <Grid x:Name="BottomLeft" Grid.Row="1" Grid.Column="0">
                     <Grid.ColumnDefinitions>
@@ -28,8 +28,8 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ImageButton x:Name="Right" Source="ArrowIcon" Rotation="90" Grid.Column="0"  Grid.Row="0"/>
-                    <ImageButton x:Name="Left" Source="ArrowIcon" Rotation="-90" Grid.Column="1" Grid.Row="0"/>
+                    <ImageButton x:Name="Right" Source="ArrowIcon" Pressed="Right_Pressed" Released="Right_Released" Rotation="90" Grid.Column="0"  Grid.Row="0"/>
+                    <ImageButton x:Name="Left" Source="ArrowIcon" Pressed="Left_Pressed" Released="Left_Released" Rotation="-90" Grid.Column="1" Grid.Row="0"/>
                     <Switch Grid.Column="0" Grid.Row="1" VerticalOptions="CenterAndExpand"/>
                     <Label Text="Motion Control" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="1" />
                 </Grid>
@@ -41,7 +41,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ImageButton x:Name="Up" Source="ArrowIcon" Rotation="180" Grid.Column="1"  Grid.Row="0"/>
+                    <ImageButton x:Name="Up" Source="ArrowIcon" Pressed="Up_Pressed" Released="Up_Released" Rotation="180" Grid.Column="1"  Grid.Row="0"/>
                 </Grid>
                 <Grid x:Name="BottomRight" Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -52,7 +52,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ImageButton x:Name="Down" Source="ArrowIcon"  Grid.Column="1" Grid.Row="0"/>
+                    <ImageButton x:Name="Down" Source="ArrowIcon" Pressed="Down_Pressed" Released="Down_Released"  Grid.Column="1" Grid.Row="0" />
                 </Grid>
             </Grid>
         </StackLayout>
