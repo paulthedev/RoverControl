@@ -7,9 +7,7 @@
              x:Class="RoverControl.Views.ConnectPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ListView x:Name="DeviceList" IsPullToRefreshEnabled="True" ItemsSource="{Binding deviceNames}"></ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
