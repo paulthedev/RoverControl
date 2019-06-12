@@ -7,11 +7,13 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using nexus.protocols.ble;
+using Android.Support.V4.App;
+using Android;
 
 namespace RoverControl.Droid
 {
     [Activity(Label = "RoverControl", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Landscape)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ActivityCompat.IOnRequestPermissionsResultCallback
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -20,8 +22,14 @@ namespace RoverControl.Droid
 
             base.OnCreate(savedInstanceState);
 
-            // If you want to enable/disable the Bluetooth adapter from code, you must call this.
-            BluetoothLowEnergyAdapter.Init(this);
+            if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.AccessCoarseLocation))
+            {
+                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.AccessCoarseLocation }, 0);
+            }
+            else if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.AccessFineLocation))
+            { 
+                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.AccessFineLocation }, 1);
+            }
             // Obtain the bluetooth adapter so we can pass it into our (shared-code) Xamarin Forms app. There are
             // additional Obtain() methods on BluetoothLowEnergyAdapter if you have more specific needs (e.g. if you
             // need to support devices with multiple Bluetooth adapters)
