@@ -4,57 +4,52 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="RoverControl.Views.DrivePage">
+             x:Class="RoverControl.Views.DrivePage" BackgroundColor="Gray">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="#808080" Padding="50">
-            <Grid x:Name="LayoutRoot">
+        <Grid x:Name="LayoutRoot" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Slider x:Name="Accleration" VerticalOptions="CenterAndExpand" Maximum="255" ValueChanged="Accleration_ValueChanged" Grid.Column="0"  Grid.Row="0"/>
+            <Label Text="Accleration" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri"  Grid.Column="0" Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
+            <Grid x:Name="BottomLeft" Grid.Row="1" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ImageButton x:Name="Right" Source="ArrowIcon" Pressed="Right_Pressed" Released="Right_Released" Rotation="90" Grid.Column="0"  Grid.Row="0" Aspect="AspectFill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <ImageButton x:Name="Left" Source="ArrowIcon" Pressed="Left_Pressed" Released="Left_Released" Rotation="-90" Grid.Column="1" Grid.Row="0" Aspect="AspectFill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <Switch Grid.Column="0" Grid.Row="1" VerticalOptions="CenterAndExpand"/>
+                <Label Text="Motion Control" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="1" />
+            </Grid>
+            <Grid x:Name="TopRight" Grid.Row="0" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ImageButton x:Name="Up" Source="ArrowIcon" Pressed="Up_Pressed" Released="Up_Released" Rotation="180" Grid.Column="1"  Grid.Row="0" Aspect="AspectFill"/>
+            </Grid>
+            <Grid x:Name="BottomRight" Grid.Row="1" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Slider x:Name="Accleration" VerticalOptions="CenterAndExpand" Maximum="255" ValueChanged="Accleration_ValueChanged" Grid.Column="0"  Grid.Row="0"/>
-                <Label Text="Accleration" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri"  Grid.Column="0" Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
-                <Grid x:Name="BottomLeft" Grid.Row="1" Grid.Column="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ImageButton x:Name="Right" Source="ArrowIcon" Pressed="Right_Pressed" Released="Right_Released" Rotation="90" Grid.Column="0"  Grid.Row="0"/>
-                    <ImageButton x:Name="Left" Source="ArrowIcon" Pressed="Left_Pressed" Released="Left_Released" Rotation="-90" Grid.Column="1" Grid.Row="0"/>
-                    <Switch Grid.Column="0" Grid.Row="1" VerticalOptions="CenterAndExpand"/>
-                    <Label Text="Motion Control" TextColor="WhiteSmoke" FontSize="17" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="1" />
-                </Grid>
-                <Grid x:Name="TopRight" Grid.Row="0" Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ImageButton x:Name="Up" Source="ArrowIcon" Pressed="Up_Pressed" Released="Up_Released" Rotation="180" Grid.Column="1"  Grid.Row="0"/>
-                </Grid>
-                <Grid x:Name="BottomRight" Grid.Row="1" Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <ImageButton x:Name="Down" Source="ArrowIcon" Pressed="Down_Pressed" Released="Down_Released"  Grid.Column="1" Grid.Row="0" />
-                </Grid>
+                <ImageButton x:Name="Down" Source="ArrowIcon" Pressed="Down_Pressed" Released="Down_Released"  Grid.Column="1" Grid.Row="0" Aspect="AspectFill"/>
             </Grid>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
