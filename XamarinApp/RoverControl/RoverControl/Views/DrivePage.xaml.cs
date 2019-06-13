@@ -24,7 +24,9 @@ namespace RoverControl.Views
         //Guid is specific. Tells us this is our rover device
         public static Guid Service = Guid.Parse("adeff3c9-7d59-4470-a847-da82025400e2");
         public static Guid CommandCharacteristic = Guid.Parse("716e54c6-edd1-4732-bde1-aade233caeaa");
-        public static Guid BatteryCharacteristic = Guid.Parse("0fe66e1e-d67f-49c9-ba5a-b7b1eaa0673e");
+
+        //For Stuff like battery level
+        public static string deviceStats;
 
         public DrivePage()
         {
@@ -140,7 +142,26 @@ namespace RoverControl.Views
             //else
             //{
             //    await DisplayAlert(string.Empty, "Connect to a Rover and try again", "Ok");
-            //}
+            //} 
+        }
+
+        private async void ReadDeviceStats()
+        {
+            if (ConnectPage.connection.IsSuccessful())
+            {
+                try
+                {
+                    byte[] buffer = await ConnectPage.gattServer.ReadCharacteristicValue(
+                       Service,
+                       CommandCharacteristic);
+                    deviceStats = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                    Debug.WriteLine(deviceStats);
+                }
+                catch (GattException ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
         }
     }
 }
