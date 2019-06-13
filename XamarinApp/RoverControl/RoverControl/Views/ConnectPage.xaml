@@ -7,7 +7,13 @@
              x:Class="RoverControl.Views.ConnectPage">
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="DeviceList" IsPullToRefreshEnabled="True" ItemsSource="{Binding deviceNames}"></ListView>
+            <ListView x:Name="DeviceList" IsPullToRefreshEnabled="True" ItemSelected="DeviceList_ItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Advertisement.DeviceName}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

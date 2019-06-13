@@ -1,5 +1,6 @@
 ﻿using nexus.core;
 using nexus.protocols.ble;
+using nexus.protocols.ble.gatt;
 using nexus.protocols.ble.scan;
 using nexus.protocols.ble.scan.advertisement;
 using System;
@@ -21,23 +22,18 @@ namespace RoverControl.Views
     [DesignTimeVisible(false)]
     public partial class ConnectPage : ContentPage
     {
-        private IBluetoothLowEnergyAdapter ble;
-        //GATT Service for our Rover
-        //Guid is specific. Tells us this is our rover device
-        private static Guid Service = Guid.Parse("adeff3c9-7d59-4470-a847-da82025400e2");
-        private static Guid WriteCharacteristic = Guid.Parse("716e54c6-edd1-4732-bde1-aade233caeaa");
-        private static Guid ReadCharacteristic = Guid.Parse("0fe66e1e-d67f-49c9-ba5a-b7b1eaa0673e");
+        public static IBleGattServerConnection gattServer = null;
+        public static BlePeripheralConnectionRequest connection;
 
         private static bool isScanning = false;
         private static List<string> hashTable = new List<string>();
 
-        private static IEnumerable<IBlePeripheral> devices;
-        private static ObservableCollection<string> deviceNames = new ObservableCollection<string>();
-        public ConnectPage(IBluetoothLowEnergyAdapter ble)
+        private static ObservableCollection<IBlePeripheral> devices = new ObservableCollection<IBlePeripheral>();
+        public ConnectPage()
         {
             InitializeComponent();
-            this.ble = ble;
-            DeviceList.ItemsSource = deviceNames;
+            DeviceList.ItemsSource = devices;
+            //DeviceList.BindingContext = "Advertisement.DeviceName";
             _ = ScanForDevices();
             DeviceList.RefreshCommand = new Command(() =>
             {
@@ -52,11 +48,7 @@ namespace RoverControl.Views
         {
             if (!isScanning)
                 _ = ScanForDevices();
-            devices = ble.DiscoveredPeripherals.Where(p => (!string.IsNullOrEmpty(p.Advertisement.DeviceName)) && IsUniqueAddress(p.Address));
-            foreach (var device in devices)
-            {
-                deviceNames.Add(device.Advertisement.DeviceName);
-            }
+            devices.AddAll(MainPage.bleAdapter.DiscoveredPeripherals.Where(p => (!string.IsNullOrEmpty(p.Advertisement.DeviceName)) && IsUniqueAddress(p.Address)));
         }
 
         private bool IsUniqueAddress(byte[] byteArray)
@@ -81,7 +73,7 @@ namespace RoverControl.Views
         {
             isScanning = true;
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-            await ble.ScanForBroadcasts(
+            await MainPage.bleAdapter.ScanForBroadcasts(
                // providing ScanSettings is optional
                new ScanSettings()
                {
@@ -94,8 +86,8 @@ namespace RoverControl.Views
                    Filter = new ScanFilter()
                    {
                        // peripherals must advertise at-least-one of any GUIDs in this list
-                       //AdvertisedServiceIsInList = new List<Guid>() { Service },
-                       IgnoreRepeatBroadcasts = true
+                       //This is how we know its one of our rover
+                       //AdvertisedServiceIsInList = new List<Guid>() { DrivePage.Service },
                    },
 
                    // ignore repeated advertisements from the same device during this scan
@@ -112,6 +104,16 @@ namespace RoverControl.Views
                cts.Token
             );
             isScanning = false;
+        }
+
+        private async void DeviceList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            connection = await MainPage.bleAdapter.ConnectToDevice((IBlePeripheral)e.SelectedItem);
+            if (connection.IsSuccessful())
+            {
+                gattServer = connection.GattServer;
+                await DisplayAlert(string.Empty, "Connected Established", "Ok");
+            }
         }
     }
 }

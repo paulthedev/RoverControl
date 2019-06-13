@@ -15,13 +15,13 @@ namespace RoverControl.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : MasterDetailPage
     {
-        IBluetoothLowEnergyAdapter ble;
+        public static IBluetoothLowEnergyAdapter bleAdapter;
         Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage(IBluetoothLowEnergyAdapter ble)
         {
             InitializeComponent();
 
-            this.ble = ble;
+            bleAdapter = ble;
 
             MasterBehavior = MasterBehavior.Popover;
 
@@ -36,10 +36,10 @@ namespace RoverControl.Views
                 switch (id)
                 {
                     case (int)MenuItemType.Drive:
-                        MenuPages.Add(id, new NavigationPage(new DrivePage(ble)));
+                        MenuPages.Add(id, new NavigationPage(new DrivePage()));
                         break;
                     case (int)MenuItemType.Connect:
-                        MenuPages.Add(id, new NavigationPage(new ConnectPage(ble)));
+                        MenuPages.Add(id, new NavigationPage(new ConnectPage()));
                         break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));

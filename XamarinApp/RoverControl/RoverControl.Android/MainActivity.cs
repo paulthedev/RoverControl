@@ -21,15 +21,15 @@ namespace RoverControl.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
-
-            if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.AccessCoarseLocation))
+            if ((int)Build.VERSION.SdkInt > 23)
             {
-                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.AccessCoarseLocation }, 0);
+                string[] permissions = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
+                if (CheckSelfPermission(permissions[0]) != (int)Permission.Granted || CheckSelfPermission(permissions[1]) != (int)Permission.Granted)
+                {
+                    ActivityCompat.RequestPermissions(this, permissions,0);
+                }
             }
-            else if (ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.AccessFineLocation))
-            { 
-                ActivityCompat.RequestPermissions(this, new String[] { Manifest.Permission.AccessFineLocation }, 1);
-            }
+
             // Obtain the bluetooth adapter so we can pass it into our (shared-code) Xamarin Forms app. There are
             // additional Obtain() methods on BluetoothLowEnergyAdapter if you have more specific needs (e.g. if you
             // need to support devices with multiple Bluetooth adapters)

@@ -1,4 +1,6 @@
 ﻿using nexus.protocols.ble;
+using nexus.protocols.ble.gatt;
+using nexus.protocols.ble.scan;
 using RoverControl.Models;
 using System;
 using System.Collections.Generic;
@@ -16,13 +18,17 @@ namespace RoverControl.Views
     [DesignTimeVisible(false)]
     public partial class DrivePage : ContentPage
     {
-        private IBluetoothLowEnergyAdapter ble;
         private RoverCommand roverCommand = new RoverCommand();
         private int vDuration = 10;
-        public DrivePage(IBluetoothLowEnergyAdapter ble)
+        //GATT Service for our Rover
+        //Guid is specific. Tells us this is our rover device
+        public static Guid Service = Guid.Parse("adeff3c9-7d59-4470-a847-da82025400e2");
+        public static Guid CommandCharacteristic = Guid.Parse("716e54c6-edd1-4732-bde1-aade233caeaa");
+        public static Guid BatteryCharacteristic = Guid.Parse("0fe66e1e-d67f-49c9-ba5a-b7b1eaa0673e");
+
+        public DrivePage()
         {
             InitializeComponent();
-            this.ble = ble;
             Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Color.Transparent;
         }
 
@@ -114,12 +120,27 @@ namespace RoverControl.Views
         }
         #endregion
 
-
-        private void SendCommand()
+        private async void SendCommand()
         {
             Debug.Write(serializeCommand());
+            if (ConnectPage.connection.IsSuccessful())
+            {
+                try
+                {
+                    var value = await ConnectPage.gattServer.WriteCharacteristicValue(
+                       Service,
+                       CommandCharacteristic,
+                       Encoding.UTF8.GetBytes(serializeCommand()));
+                }
+                catch (GattException ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+            //else
+            //{
+            //    await DisplayAlert(string.Empty, "Connect to a Rover and try again", "Ok");
+            //}
         }
-
-
     }
 }
