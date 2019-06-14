@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="ble.net" Version="1.2.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.0.0.482894" />  
+    <PackageReference Include="Xamarin.Forms" Version="4.0.0.497661" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.1.0" />
   </ItemGroup>
 
