@@ -30,6 +30,17 @@ namespace RoverControl.Droid
                 }
             }
 
+
+            View decorView = Window.DecorView;
+            var uiOptions = (int)decorView.SystemUiVisibility;
+            var newUiOptions = (int)uiOptions;
+
+            newUiOptions |= (int)SystemUiFlags.Fullscreen;
+            newUiOptions |= (int)SystemUiFlags.HideNavigation;
+            newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
+
+            decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
+
             // Obtain the bluetooth adapter so we can pass it into our (shared-code) Xamarin Forms app. There are
             // additional Obtain() methods on BluetoothLowEnergyAdapter if you have more specific needs (e.g. if you
             // need to support devices with multiple Bluetooth adapters)
