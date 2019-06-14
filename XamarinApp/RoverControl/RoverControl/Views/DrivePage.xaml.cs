@@ -1,17 +1,9 @@
-﻿using nexus.protocols.ble;
-using nexus.protocols.ble.gatt;
-using nexus.protocols.ble.scan;
-using RoverControl.Models;
+﻿using RoverControl.Models;
+using RoverControl.Services;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace RoverControl.Views
 {
@@ -20,13 +12,6 @@ namespace RoverControl.Views
     {
         private RoverCommand roverCommand = new RoverCommand();
         private int vDuration = 10;
-        //GATT Service for our Rover
-        //Guid is specific. Tells us this is our rover device
-        public static Guid Service = Guid.Parse("adeff3c9-7d59-4470-a847-da82025400e2");
-        public static Guid CommandCharacteristic = Guid.Parse("716e54c6-edd1-4732-bde1-aade233caeaa");
-
-        //For Stuff like battery level
-        public static string deviceStats;
 
         public DrivePage()
         {
@@ -34,18 +19,6 @@ namespace RoverControl.Views
             Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Color.Transparent;
         }
 
-        private string serializeCommand()
-        {
-            string rvc = "";
-            rvc += roverCommand.Up;
-            rvc += roverCommand.Down;
-            rvc += roverCommand.Right;
-            rvc += roverCommand.Left;
-            rvc += roverCommand.HeadLignts;
-            rvc += roverCommand.RearwheelAccleration.ToString("D3");
-
-            return rvc;
-        }
 
         #region Navigation
         private void Up_Pressed(object sender, EventArgs e)
@@ -122,46 +95,22 @@ namespace RoverControl.Views
         }
         #endregion
 
-        private async void SendCommand()
+        private string serializeCommand()
         {
-            Debug.Write(serializeCommand());
-            if (ConnectPage.connection.IsSuccessful())
-            {
-                try
-                {
-                    var value = await ConnectPage.gattServer.WriteCharacteristicValue(
-                       Service,
-                       CommandCharacteristic,
-                       Encoding.UTF8.GetBytes(serializeCommand()));
-                }
-                catch (GattException ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-            }
-            //else
-            //{
-            //    await DisplayAlert(string.Empty, "Connect to a Rover and try again", "Ok");
-            //} 
+            string rvc = "";
+            rvc += roverCommand.Up;
+            rvc += roverCommand.Down;
+            rvc += roverCommand.Right;
+            rvc += roverCommand.Left;
+            rvc += roverCommand.HeadLignts;
+            rvc += roverCommand.RearwheelAccleration.ToString("D3");
+
+            return rvc;
         }
 
-        private async void ReadDeviceStats()
+        private void SendCommand()
         {
-            if (ConnectPage.connection.IsSuccessful())
-            {
-                try
-                {
-                    byte[] buffer = await ConnectPage.gattServer.ReadCharacteristicValue(
-                       Service,
-                       CommandCharacteristic);
-                    deviceStats = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-                    Debug.WriteLine(deviceStats);
-                }
-                catch (GattException ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-            }
+            BleService.WriteToDevice(serializeCommand());
         }
     }
 }

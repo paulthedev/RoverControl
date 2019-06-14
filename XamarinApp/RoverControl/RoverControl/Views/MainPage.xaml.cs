@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 using RoverControl.Models;
-using nexus.protocols.ble;
 
 namespace RoverControl.Views
 {
@@ -15,13 +12,11 @@ namespace RoverControl.Views
     [DesignTimeVisible(false)]
     public partial class MainPage : MasterDetailPage
     {
-        public static IBluetoothLowEnergyAdapter bleAdapter;
+        
         Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
-        public MainPage(IBluetoothLowEnergyAdapter ble)
+        public MainPage()
         {
             InitializeComponent();
-
-            bleAdapter = ble;
 
             MasterBehavior = MasterBehavior.Popover;
 

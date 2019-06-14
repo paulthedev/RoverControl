@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using RoverControl.Views;
 using nexus.protocols.ble;
+using RoverControl.Services;
 
 namespace RoverControl
 {
@@ -12,8 +13,8 @@ namespace RoverControl
         public App(IBluetoothLowEnergyAdapter ble)
         {
             InitializeComponent();
-
-            MainPage = new MainPage(ble);
+            BleService.bleAdapter = ble;
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
