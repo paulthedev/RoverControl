@@ -50,6 +50,21 @@ namespace RoverControl.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(bluetooth));
         }
+
+        protected override void OnResume()
+        {
+            View decorView = Window.DecorView;
+            var uiOptions = (int)decorView.SystemUiVisibility;
+            var newUiOptions = (int)uiOptions;
+
+            newUiOptions |= (int)SystemUiFlags.Fullscreen;
+            newUiOptions |= (int)SystemUiFlags.HideNavigation;
+            newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
+
+            decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
+
+            base.OnResume();
+        }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
