@@ -20,8 +20,8 @@ namespace RoverControl.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Drive, Title = "Control" },
-                new HomeMenuItem {Id = MenuItemType.Connect, Title="Select a Rover" },
+                new HomeMenuItem {Id = MenuItemType.Control, Title = "Control" },
+                new HomeMenuItem {Id = MenuItemType.Devices, Title="Devices" },
                 new HomeMenuItem {Id = MenuItemType.About, Title="About" }
             };
 

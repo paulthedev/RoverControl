@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="RoverControl.Views.ConnectPage">
+             x:Class="RoverControl.Views.ConnectPage"
+             Title="Select a Device">
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="DeviceList" IsPullToRefreshEnabled="True" ItemSelected="DeviceList_ItemSelected">

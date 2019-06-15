@@ -21,7 +21,7 @@ namespace RoverControl.Views
             MasterBehavior = MasterBehavior.Popover;
 
             //MenuPages.Add((int)MenuItemType.Drive, (NavigationPage)Detail);
-            _ = NavigateFromMenu((int)MenuItemType.Drive);
+            _ = NavigateFromMenu((int)MenuItemType.Control);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -30,10 +30,10 @@ namespace RoverControl.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Drive:
+                    case (int)MenuItemType.Control:
                         MenuPages.Add(id, new NavigationPage(new DrivePage()));
                         break;
-                    case (int)MenuItemType.Connect:
+                    case (int)MenuItemType.Devices:
                         MenuPages.Add(id, new NavigationPage(new ConnectPage()));
                         break;
                     case (int)MenuItemType.About:
