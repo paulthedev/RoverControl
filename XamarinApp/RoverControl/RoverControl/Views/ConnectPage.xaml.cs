@@ -16,6 +16,10 @@ namespace RoverControl.Views
 
             DeviceList.ItemsSource = BleService.devices;
 
+            if (BleService.bleAdapter.AdapterCanBeEnabled && BleService.bleAdapter.CurrentState.IsDisabledOrDisabling())
+            {
+                BleService.bleAdapter.EnableAdapter();
+            }
             _ = BleService.ScanForDevices();
             DeviceList.RefreshCommand = new Command(() =>
             {
