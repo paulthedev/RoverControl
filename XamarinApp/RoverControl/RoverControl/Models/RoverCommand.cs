@@ -12,14 +12,14 @@ namespace RoverControl.Models
             Down = 0;
             Left = 0;
             Right = 0;
-            HeadLignts = 0;
+            HeadLights = 0;
             RearwheelAccleration = 0;
         }
         public int Up { get; set; }
         public int Down { get; set; }
         public int Left { get; set; }
         public int Right { get; set; }
-        public int HeadLignts { get; set; }
+        public int HeadLights { get; set; }
         public int RearwheelAccleration { get; set; }
 
 

@@ -21,7 +21,7 @@ namespace RoverControl.Services
             rvc += roverCommand.Down;
             rvc += roverCommand.Right;
             rvc += roverCommand.Left;
-            rvc += roverCommand.HeadLignts;
+            rvc += roverCommand.HeadLights;
             rvc += roverCommand.RearwheelAccleration.ToString("D3");
 
             return rvc;
