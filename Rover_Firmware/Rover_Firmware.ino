@@ -99,6 +99,7 @@ void setup() {
   Serial.begin(115200);
 
   BLEDevice::init("Rover");
+  BLEDevice::setPower(ESP_PWR_LVL_P7);
   BLEServer *pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
