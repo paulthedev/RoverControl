@@ -27,23 +27,25 @@ namespace RoverControl.Services
             sensorData.accelY = data.Acceleration.Y;
             sensorData.accelZ = data.Acceleration.Z;
             CalculateRotationVectors();
-            if (sensorData.pitch < -10)
-            {
-                CommandService.roverCommand.Right = 1;
-                CommandService.roverCommand.Left = 0;
-            }
-            else if(sensorData.pitch < 10)
-            {
-                CommandService.roverCommand.Left = 0;
-                CommandService.roverCommand.Right = 0;
-            }
-            else
+            if (sensorData.pitch < -17 && CommandService.roverCommand.Left == 0)
             {
                 CommandService.roverCommand.Left = 1;
                 CommandService.roverCommand.Right = 0;
+                CommandService.SendCommand();
             }
-            CommandService.SendCommand();
-            Debug.WriteLine("Pitch "+sensorData.pitch+" Roll "+sensorData.roll+" Yaw "+sensorData.yaw);
+            else if(sensorData.pitch < 17 && sensorData.pitch > -17 && (CommandService.roverCommand.Right == 1 || CommandService.roverCommand.Left == 1))
+            {
+                CommandService.roverCommand.Left = 0;
+                CommandService.roverCommand.Right = 0;
+                CommandService.SendCommand();
+            }
+            else if(sensorData.pitch > 17 && CommandService.roverCommand.Right == 0)
+            {
+                CommandService.roverCommand.Right = 1;
+                CommandService.roverCommand.Left = 0;
+                CommandService.SendCommand();
+            }
+            //Debug.WriteLine("Pitch "+sensorData.pitch+" Roll "+sensorData.roll+" Yaw "+sensorData.yaw);
         }
         void Magnetometer_ReadingChanged(object sender, MagnetometerChangedEventArgs e)
         {
