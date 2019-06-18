@@ -6,13 +6,13 @@
 #define CHARACTERISTIC_UUID "716e54c6-edd1-4732-bde1-aade233caeaa"
 
 
-uint8_t PWMRear = 16;
-uint8_t RearIn1 = 17;
-uint8_t RearIn2 = 18;
+uint8_t PWMFront = 16;
+uint8_t FrontIn1 = 17;
+uint8_t FrontIn2 = 18;
 
-uint8_t PWMFront = 19;
-uint8_t FrontIn1 = 21;
-uint8_t FrontIn2 = 22;
+uint8_t PWMRear = 19;
+uint8_t RearIn1 = 21;
+uint8_t RearIn2 = 22;
 
 uint8_t ENMotorDriver = 23;
 
@@ -44,18 +44,18 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         Serial.println("Rear Stall");
       }
 
-      //Right
+      //Left
       if(value[2] == '0' && value[3] == '1'){
         digitalWrite(FrontIn1, HIGH);
         digitalWrite(FrontIn2, LOW);
-        Serial.println("Right");
+        Serial.println("Left");
       }
       
-      //Left
+      //Right
       if(value[2] == '1' && value[3] == '0'){
         digitalWrite(FrontIn1, LOW);
         digitalWrite(FrontIn2, HIGH);
-        Serial.println("Left");
+        Serial.println("Right");
       }
 
       //Front Motor Stall
@@ -85,12 +85,12 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
-      digitalWrite(ENMotorDriver, LOW);
+      digitalWrite(ENMotorDriver, HIGH);
       Serial.println("connected");
     }
     
     void onDisconnect(BLEServer* pServer) {
-      digitalWrite(ENMotorDriver, HIGH);
+      digitalWrite(ENMotorDriver, LOW);
       Serial.println("disconnected");
     }
 };
