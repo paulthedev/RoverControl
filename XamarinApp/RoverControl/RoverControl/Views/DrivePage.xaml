@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              x:Class="RoverControl.Views.DrivePage"
              Title="Control"
-             BackgroundColor="#808080">
+             BackgroundColor="#3C3C3C">
     
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -42,6 +42,7 @@
                 </Grid.RowDefinitions>
                 <ImageButton x:Name="Left" Source="{StaticResource ButtonIcon}" Pressed="Left_Pressed" Released="Left_Released" Rotation="90" Grid.Column="0"  Grid.Row="0" Aspect="AspectFill" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"/>
                 <ImageButton x:Name="Right" Source="{StaticResource ButtonIcon}" Pressed="Right_Pressed" Released="Right_Released" Rotation="-90" Grid.Column="1" Grid.Row="0" Aspect="AspectFill" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"/>
+                <ImageButton x:Name="Light" Source="LightsOff" Clicked="Light_Toggle" Grid.Column="2" Grid.Row="0" Aspect="AspectFit" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                 <Switch x:Name="Tilt" Grid.Column="0" Grid.Row="1" Toggled="Tilt_Toggled" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                 <Label Text="Enable Tilt" FontSize="{StaticResource fontSizeMedium}" TextColor="{StaticResource TextColor}" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="1" />
             </Grid>

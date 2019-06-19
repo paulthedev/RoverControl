@@ -17,7 +17,7 @@ namespace RoverControl.Views
         public DrivePage()
         {
             InitializeComponent();
-            Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Color.Transparent;
+            Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Light.BackgroundColor = Color.Transparent;
         }
 
 
@@ -120,6 +120,22 @@ namespace RoverControl.Views
                 Left.IsEnabled = true;
                 isTiltEnabled = false;
                 sensor.ToggleSensor();
+            }
+        }
+
+        private void Light_Toggle(object sender, EventArgs e)
+        {
+            if(CommandService.roverCommand.HeadLights == 0)
+            {
+                CommandService.roverCommand.HeadLights = 1;
+                Light.Source = "LightsOn";
+                CommandService.SendCommand();
+            }
+            else
+            {
+                CommandService.roverCommand.HeadLights = 0;
+                Light.Source = "LightsOff";
+                CommandService.SendCommand();
             }
         }
     }
