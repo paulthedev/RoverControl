@@ -33,7 +33,7 @@ namespace RoverControl.Services
                 CommandService.roverCommand.Right = 0;
                 CommandService.SendCommand();
             }
-            else if(sensorData.pitch < 17 && sensorData.pitch > -17 && (CommandService.roverCommand.Right == 1 || CommandService.roverCommand.Left == 1))
+            else if(sensorData.pitch < 7 && sensorData.pitch > -7 && (CommandService.roverCommand.Right == 1 || CommandService.roverCommand.Left == 1))
             {
                 CommandService.roverCommand.Left = 0;
                 CommandService.roverCommand.Right = 0;
