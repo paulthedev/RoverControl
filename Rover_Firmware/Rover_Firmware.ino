@@ -89,8 +89,10 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 };
 
 class MyServerCallbacks: public BLEServerCallbacks {
-    void onConnect(BLEServer* pServer) {
+    void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param) {
       digitalWrite(ENMotorDriver, HIGH);
+      //Set BLE connection interval for connected device
+      pServer->updateConnParams(param->connect.remote_bda, 0x0028,0x0028, 0, 0x03e8);
       Serial.println("connected");
     }
     
