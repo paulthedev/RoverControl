@@ -28,7 +28,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Slider x:Name="Accleration" VerticalOptions="CenterAndExpand" Maximum="255" ValueChanged="Accleration_ValueChanged" Grid.Column="0"  Grid.Row="0"/>
+            <Slider x:Name="Accleration" Maximum="255" ValueChanged="Accleration_ValueChanged" Grid.Column="0"  Grid.Row="0" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" WidthRequest="400"/>
             <Label Text="Accleration" FontSize="{StaticResource fontSizeMedium}" TextColor="{StaticResource TextColor}" FontAttributes="Bold" FontFamily="Calibri"  Grid.Column="0" Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
             <Grid x:Name="BottomLeft" Grid.Row="1" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
