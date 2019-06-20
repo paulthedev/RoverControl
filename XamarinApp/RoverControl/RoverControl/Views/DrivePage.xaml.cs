@@ -128,12 +128,14 @@ namespace RoverControl.Views
             if(CommandService.roverCommand.HeadLights == 0)
             {
                 CommandService.roverCommand.HeadLights = 1;
+                Vibration.Vibrate(vDuration);
                 Light.Source = "LightsOn";
                 CommandService.SendCommand();
             }
             else
             {
                 CommandService.roverCommand.HeadLights = 0;
+                Vibration.Vibrate(vDuration);
                 Light.Source = "LightsOff";
                 CommandService.SendCommand();
             }
