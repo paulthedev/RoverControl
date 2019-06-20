@@ -14,6 +14,8 @@ uint8_t PWMRear = 19;
 uint8_t RearIn1 = 21;
 uint8_t RearIn2 = 22;
 
+uint8_t lights = 4;
+
 uint8_t ENMotorDriver = 23;
 
 class MyCallbacks: public BLECharacteristicCallbacks {
@@ -65,11 +67,14 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         Serial.println("Front Stall");
       }
 
+      //Headlights on
       if(value[4] == '1'){
-        //Headlights on
+        digitalWrite(lights, HIGH);
       }
+
+      //Headlights off
       if(value[4] == '0'){
-        //Headlights off
+        digitalWrite(lights, LOW);
       }
       
       //Rear Motor Accleration
@@ -131,6 +136,7 @@ void setup() {
   pinMode(RearIn2, OUTPUT);
   pinMode(FrontIn1, OUTPUT);
   pinMode(FrontIn2, OUTPUT);
+  pinMode(lights, OUTPUT);
   pinMode(ENMotorDriver, OUTPUT);
 }
 
