@@ -42,7 +42,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="Take control of your bluetooth enabled Rover." />
+                                <Span Text="Connects to a bluetooth rover and uses a custom BLE GATT profile to perform actions." />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
@@ -51,17 +51,18 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="For Project details, click the button below. For any suggestions write to " />
+                                <Span Text="For details and schematics, click the button below." />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="Write to " />
                                 <Span Text="iamdevpaul@outlook.com" FontAttributes="Bold" />
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="Have Fun !" />
+                                <Span Text=" for any suggestions." />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
