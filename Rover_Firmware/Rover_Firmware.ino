@@ -3,8 +3,10 @@
 #include <BLEServer.h>
 
 #define SERVICE_UUID        "adeff3c9-7d59-4470-a847-da82025400e2"
-#define CHARACTERISTIC_UUID "716e54c6-edd1-4732-bde1-aade233caeaa"
+#define Nav_UUID "716e54c6-edd1-4732-bde1-aade233caeaa"
+#define Batt_UUID "31da16da-b080-4934-b09d-60b877186aea"
 
+uint8_t BattSense = 34;
 
 uint8_t PWMFront = 16;
 uint8_t FrontIn1 = 17;
@@ -18,10 +20,22 @@ uint8_t lights = 4;
 
 uint8_t ENMotorDriver = 23;
 
-class MyCallbacks: public BLECharacteristicCallbacks {
+class BattInfoCallbacks: public BLECharacteristicCallbacks {
     void onRead(BLECharacteristic *pCharacteristic) {
-      pCharacteristic->setValue("70");
+      float VBAT = (127.0f/100.0f) * 3.30f * float(analogRead(BattSense)) / 4095.0f;  // LiPo battery
+      char BattLevel[10];
+      sprintf(BattLevel,"%4.0f",calculateBattLevel(VBAT, 3.2f, 4.2f));
+      pCharacteristic->setValue(BattLevel);
     }
+    
+    //Asymmetric sigmoidal approximation
+    float calculateBattLevel(float voltage, float minVoltage, float maxVoltage) {
+      float result = 101 - (101.0f / pow(1.0f + pow(1.33f * (voltage - minVoltage)/(maxVoltage - minVoltage) ,4.5f), 3.0f));
+      return result >= 100.0f ? 100.0f : result;
+    }
+};
+
+class NavigationCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
    
@@ -111,13 +125,19 @@ void setup() {
   pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
 
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
-                                         CHARACTERISTIC_UUID,
-                                         BLECharacteristic::PROPERTY_READ |
+  BLECharacteristic *navCharacteristic = pService->createCharacteristic(
+                                         Nav_UUID,
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
 
-  pCharacteristic->setCallbacks(new MyCallbacks());
+  navCharacteristic->setCallbacks(new NavigationCallbacks());
+
+  BLECharacteristic *battCharacteristic = pService->createCharacteristic(
+                                         Batt_UUID,
+                                         BLECharacteristic::PROPERTY_READ
+                                       );
+  battCharacteristic->setCallbacks(new BattInfoCallbacks());
+  
   pService->start();
 
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
