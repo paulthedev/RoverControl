@@ -188,7 +188,7 @@ namespace RoverControl.Views
             }
             catch(Exception ex)
             {
-                Battery.Source = "";
+                Battery.Source = null;
             }
         }
 
