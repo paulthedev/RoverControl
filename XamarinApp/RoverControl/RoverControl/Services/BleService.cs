@@ -31,6 +31,7 @@ namespace RoverControl.Services
         //Guid is specific. Tells us this is our rover device
         private static Guid Service = Guid.Parse("adeff3c9-7d59-4470-a847-da82025400e2");
         private static Guid CommandCharacteristic = Guid.Parse("716e54c6-edd1-4732-bde1-aade233caeaa");
+        private static Guid BattCharacteristic = Guid.Parse("31da16da-b080-4934-b09d-60b877186aea");
 
 
         public static async void WriteToDevice(string msg)
@@ -61,7 +62,7 @@ namespace RoverControl.Services
                 {
                     byte[] buffer = await gattServer.ReadCharacteristicValue(
                        Service,
-                       CommandCharacteristic);
+                       BattCharacteristic);
                     msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
                     Debug.WriteLine(msg);
                 }
