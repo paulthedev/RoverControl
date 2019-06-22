@@ -32,8 +32,6 @@ namespace RoverControl.Services
         private static Guid Service = Guid.Parse("adeff3c9-7d59-4470-a847-da82025400e2");
         private static Guid CommandCharacteristic = Guid.Parse("716e54c6-edd1-4732-bde1-aade233caeaa");
 
-        //For Stuff like battery level
-        public static string deviceStats;
 
         public static async void WriteToDevice(string msg)
         {
@@ -54,8 +52,9 @@ namespace RoverControl.Services
             }
         }
 
-        public static async void ReadFromDevice()
+        public static async Task<string> ReadFromDevice()
         {
+            string msg = "err";
             if (connection.IsSuccessful())
             {
                 try
@@ -63,14 +62,15 @@ namespace RoverControl.Services
                     byte[] buffer = await gattServer.ReadCharacteristicValue(
                        Service,
                        CommandCharacteristic);
-                    deviceStats = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-                    Debug.WriteLine(deviceStats);
+                    msg = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                    Debug.WriteLine(msg);
                 }
                 catch (GattException ex)
                 {
                     Debug.WriteLine(ex.ToString());
                 }
             }
+            return msg;
         }
 
         public static async Task ScanForDevices()
@@ -91,7 +91,7 @@ namespace RoverControl.Services
                    {
                        // peripherals must advertise at-least-one of any GUIDs in this list
                        //This is how we know its one of our rover
-                       //AdvertisedServiceIsInList = new List<Guid>() { DrivePage.Service },
+                       //AdvertisedServiceIsInList = new List<Guid>() { Service },
                    },
 
                    // ignore repeated advertisements from the same device during this scan

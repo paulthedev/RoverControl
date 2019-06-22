@@ -1,7 +1,11 @@
-﻿using RoverControl.Models;
+﻿using nexus.protocols.ble;
+using RoverControl.Models;
 using RoverControl.Services;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -10,7 +14,7 @@ namespace RoverControl.Views
     [DesignTimeVisible(false)]
     public partial class DrivePage : ContentPage
     {
-        
+
         public static bool isTiltEnabled = false;
         private int vDuration = 10;
         private static SensorService sensor = new SensorService();
@@ -20,6 +24,22 @@ namespace RoverControl.Views
             Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Light.BackgroundColor = Color.Transparent;
         }
 
+        protected override void OnAppearing()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            {
+                if (BleService.connection.IsSuccessful())
+                {
+                    Task.Run(ReadBattery);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            });
+        }
 
         #region Navigation
         private void Up_Pressed(object sender, EventArgs e)
@@ -107,7 +127,7 @@ namespace RoverControl.Views
 
         private void Tilt_Toggled(object sender, ToggledEventArgs e)
         {
-            if(e.Value == true)
+            if (e.Value == true)
             {
                 Right.IsEnabled = false;
                 Left.IsEnabled = false;
@@ -125,7 +145,7 @@ namespace RoverControl.Views
 
         private void Light_Toggle(object sender, EventArgs e)
         {
-            if(CommandService.roverCommand.HeadLights == 0)
+            if (CommandService.roverCommand.HeadLights == 0)
             {
                 CommandService.roverCommand.HeadLights = 1;
                 Vibration.Vibrate(vDuration);
@@ -139,6 +159,35 @@ namespace RoverControl.Views
                 Light.Source = "LightsOff";
                 CommandService.SendCommand();
             }
+        }
+
+        private async void ReadBattery()
+        {
+            try
+            {
+                var BattLevel = Convert.ToInt32(await BleService.ReadFromDevice());
+                if (BattLevel > 90)
+                {
+                    Battery.Source = "BatteryFull";
+                }
+                else if (BattLevel < 55 && BattLevel > 45)
+                {
+                    Battery.Source = "BatteyMedium";
+                }
+                else if (BattLevel < 15)
+                {
+                    Battery.Source = "BatteryLow";
+                }
+            }
+            catch(Exception ex)
+            {
+                Battery.Source = "";
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+
         }
     }
 }
