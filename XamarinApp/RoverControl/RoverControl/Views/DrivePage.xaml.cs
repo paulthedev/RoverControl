@@ -18,6 +18,7 @@ namespace RoverControl.Views
         public static bool isTiltEnabled = false;
         private int vDuration = 10;
         private static SensorService sensor = new SensorService();
+        private bool isInView = false;
         public DrivePage()
         {
             InitializeComponent();
@@ -26,11 +27,16 @@ namespace RoverControl.Views
 
         protected override void OnAppearing()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            isInView = true;
+            if (BleService.connection.IsSuccessful())
             {
-                if (BleService.connection.IsSuccessful())
+                _ = ReadBattery();
+            }
+            Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+            {
+                if (BleService.connection.IsSuccessful() && isInView)
                 {
-                    Task.Run(ReadBattery);
+                    _ = ReadBattery();
                     return true;
                 }
                 else
@@ -161,20 +167,21 @@ namespace RoverControl.Views
             }
         }
 
-        private async void ReadBattery()
+        private async Task ReadBattery()
         {
             try
             {
-                var BattLevel = Convert.ToInt32(await BleService.ReadFromDevice());
-                if (BattLevel > 90)
+                var msg = await BleService.ReadFromDevice();
+                var BattLevel = Convert.ToInt32(msg);
+                if (BattLevel > 60)
                 {
                     Battery.Source = "BatteryFull";
                 }
-                else if (BattLevel < 55 && BattLevel > 45)
+                else if (BattLevel < 60 && BattLevel > 30)
                 {
-                    Battery.Source = "BatteyMedium";
+                    Battery.Source = "BatteryMedium";
                 }
-                else if (BattLevel < 15)
+                else if (BattLevel < 30)
                 {
                     Battery.Source = "BatteryLow";
                 }
@@ -187,7 +194,7 @@ namespace RoverControl.Views
 
         protected override void OnDisappearing()
         {
-
+            isInView = false;
         }
     }
 }
