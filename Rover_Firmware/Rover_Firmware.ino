@@ -3,8 +3,8 @@
 #include <BLEServer.h>
 
 #define SERVICE_UUID        "adeff3c9-7d59-4470-a847-da82025400e2"
-#define Nav_UUID "716e54c6-edd1-4732-bde1-aade233caeaa"
-#define Batt_UUID "31da16da-b080-4934-b09d-60b877186aea"
+#define Nav_UUID            "716e54c6-edd1-4732-bde1-aade233caeaa"
+#define Batt_UUID           "31da16da-b080-4934-b09d-60b877186aea"
 
 uint8_t BattSense = 34;
 
@@ -106,7 +106,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param) {
       digitalWrite(ENMotorDriver, HIGH);
       //Set BLE connection interval for connected device
-      pServer->updateConnParams(param->connect.remote_bda, 0x0028,0x0028, 0, 0x03e8);
+      pServer->updateConnParams(param->connect.remote_bda, 0x0014,0x0028, 0x01F3, 0x0C80);
       Serial.println("connected");
     }
     
