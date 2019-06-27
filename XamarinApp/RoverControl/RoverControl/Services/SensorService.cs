@@ -92,10 +92,12 @@ namespace RoverControl.Services
             catch (FeatureNotSupportedException fnsEx)
             {
                 // Feature not supported on device
+                Debug.WriteLine(fnsEx.Message);
             }
             catch (Exception ex)
             {
                 // Other error has occurred.
+                Debug.WriteLine(ex.Message);
             }
         }
     }
