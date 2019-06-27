@@ -204,6 +204,7 @@ namespace RoverControl.Views
             catch(Exception ex)
             {
                 Battery.Source = null;
+                Debug.WriteLine(ex.Message);
             }
         }
 
