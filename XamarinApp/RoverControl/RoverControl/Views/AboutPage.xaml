@@ -42,7 +42,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <FormattedString.Spans>
-                                <Span Text="Connects to a bluetooth rover and uses a custom BLE GATT profile to perform actions." />
+                                <Span Text="Connects to a rover which implements custom BLE GATT profile to perform actions." />
                             </FormattedString.Spans>
                         </FormattedString>
                     </Label.FormattedText>
