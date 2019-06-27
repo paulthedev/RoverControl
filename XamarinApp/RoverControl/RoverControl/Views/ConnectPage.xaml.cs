@@ -28,6 +28,11 @@ namespace RoverControl.Views
             });
         }
 
+        protected override void OnAppearing()
+        {
+            RefreshList();
+        }
+
         private void RefreshList()
         {
             if (!BleService.isScanning)
