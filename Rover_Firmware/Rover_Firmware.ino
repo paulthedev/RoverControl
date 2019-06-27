@@ -107,6 +107,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
       digitalWrite(ENMotorDriver, HIGH);
       //Set BLE connection interval for connected device
       pServer->updateConnParams(param->connect.remote_bda, 0x0014,0x0028, 0x01F3, 0x0C80);
+      BLEDevice::setPower(ESP_PWR_LVL_P7);
       Serial.println("connected");
     }
     
