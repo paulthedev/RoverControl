@@ -31,6 +31,7 @@ namespace RoverControl.Views
             if (BleService.connection.IsSuccessful())
             {
                 _ = ReadBattery();
+                _ = ReadBattery();//Bug in ESP32 sends calculted data on second call
             }
             Device.StartTimer(TimeSpan.FromSeconds(30), () =>
             {
@@ -172,18 +173,21 @@ namespace RoverControl.Views
             try
             {
                 var msg = await BleService.ReadFromDevice();
-                var BattLevel = Convert.ToInt32(msg);
-                if (BattLevel > 60)
+                if (!string.IsNullOrEmpty(msg))
                 {
-                    Battery.Source = "BatteryFull";
-                }
-                else if (BattLevel < 60 && BattLevel > 30)
-                {
-                    Battery.Source = "BatteryMedium";
-                }
-                else if (BattLevel < 30)
-                {
-                    Battery.Source = "BatteryLow";
+                    var BattLevel = Convert.ToInt32(msg);
+                    if (BattLevel > 60)
+                    {
+                        Battery.Source = "BatteryFull";
+                    }
+                    else if (BattLevel < 60 && BattLevel > 30)
+                    {
+                        Battery.Source = "BatteryMedium";
+                    }
+                    else if (BattLevel < 30)
+                    {
+                        Battery.Source = "BatteryLow";
+                    }
                 }
             }
             catch(Exception ex)
