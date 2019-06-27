@@ -34,7 +34,7 @@ namespace RoverControl.Views
                 _ = BleService.ScanForDevices();
         }
 
-        private async void DeviceList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void DeviceList_ItemTapped(object sender, SelectedItemChangedEventArgs e)
         {
             BleService.connection = await BleService.bleAdapter.ConnectToDevice((IBlePeripheral)e.SelectedItem);
             if (BleService.connection.IsSuccessful())

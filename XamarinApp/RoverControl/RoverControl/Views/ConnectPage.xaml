@@ -8,7 +8,7 @@
              Title="Select a Device">
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="DeviceList" IsPullToRefreshEnabled="True" ItemSelected="DeviceList_ItemSelected">
+            <ListView x:Name="DeviceList" IsPullToRefreshEnabled="True" ItemTapped="DeviceList_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Advertisement.DeviceName}" TextColor="Black"/>
