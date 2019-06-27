@@ -92,7 +92,7 @@ namespace RoverControl.Services
                    {
                        // peripherals must advertise at-least-one of any GUIDs in this list
                        //This is how we know its one of our rover
-                       //AdvertisedServiceIsInList = new List<Guid>() { Service },
+                       AdvertisedServiceIsInList = new List<Guid>() { Service },
                    },
 
                    // ignore repeated advertisements from the same device during this scan
