@@ -19,6 +19,8 @@ namespace RoverControl.Views
         private int vDuration = 10;
         private static SensorService sensor = new SensorService();
         private bool isInView = false;
+        private int BattLevel = 0;
+
         public DrivePage()
         {
             InitializeComponent();
@@ -175,18 +177,27 @@ namespace RoverControl.Views
                 var msg = await BleService.ReadFromDevice();
                 if (!string.IsNullOrEmpty(msg))
                 {
-                    var BattLevel = Convert.ToInt32(msg);
-                    if (BattLevel > 60)
+                    int BattLevel = Convert.ToInt32(msg);
+                    if(this.BattLevel == 0) // First time battery read
                     {
-                        Battery.Source = "BatteryFull";
+                        this.BattLevel = BattLevel;
                     }
-                    else if (BattLevel < 60 && BattLevel > 30)
+
+                    if (Math.Abs(this.BattLevel - BattLevel) < 10)//Reading correct // Kalman filtering
                     {
-                        Battery.Source = "BatteryMedium";
-                    }
-                    else if (BattLevel < 30)
-                    {
-                        Battery.Source = "BatteryLow";
+                        this.BattLevel = BattLevel;
+                        if (BattLevel > 60)
+                        {
+                            Battery.Source = "BatteryFull";
+                        }
+                        else if (BattLevel < 60 && BattLevel > 30)
+                        {
+                            Battery.Source = "BatteryMedium";
+                        }
+                        else if (BattLevel < 30)
+                        {
+                            Battery.Source = "BatteryLow";
+                        }
                     }
                 }
             }
