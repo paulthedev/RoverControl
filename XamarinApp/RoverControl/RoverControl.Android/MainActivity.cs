@@ -9,6 +9,7 @@ using Android.OS;
 using nexus.protocols.ble;
 using Android.Support.V4.App;
 using Android;
+using Android.Content;
 
 namespace RoverControl.Droid
 {
@@ -21,12 +22,25 @@ namespace RoverControl.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
             if ((int)Build.VERSION.SdkInt > 23)
             {
                 string[] permissions = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
                 if (CheckSelfPermission(permissions[0]) != (int)Permission.Granted || CheckSelfPermission(permissions[1]) != (int)Permission.Granted)
                 {
-                    ActivityCompat.RequestPermissions(this, permissions,0);
+                    using (var builder = new AlertDialog.Builder(this))
+                    {
+                        builder.SetMessage("Some android OEMs bundle bluetooth functionality with location, bluetooth doesn't work without it. Your location is not tracked.");
+                        builder.SetPositiveButton("OK", OkAction);
+                        var disclaimer = builder.Create();
+
+                        disclaimer.Show();
+                    }
+
+                    void OkAction(object sender, DialogClickEventArgs e)
+                    {
+                        ActivityCompat.RequestPermissions(this, permissions, 0);
+                    }
                 }
             }
 
