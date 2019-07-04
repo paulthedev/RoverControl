@@ -23,14 +23,14 @@ namespace RoverControl.Droid
 
             base.OnCreate(savedInstanceState);
 
-            if ((int)Build.VERSION.SdkInt > 23)
+            if ((int)Build.VERSION.SdkInt >= 23)
             {
                 string[] permissions = { Manifest.Permission.AccessCoarseLocation, Manifest.Permission.AccessFineLocation };
                 if (CheckSelfPermission(permissions[0]) != (int)Permission.Granted || CheckSelfPermission(permissions[1]) != (int)Permission.Granted)
                 {
                     using (var builder = new AlertDialog.Builder(this))
                     {
-                        builder.SetMessage("Some android OEMs bundle bluetooth functionality with location, bluetooth doesn't work without it. Your location is not tracked.");
+                        builder.SetMessage("Some android OEMs bundle bluetooth functionality with location, bluetooth doesn't work without it. Your location is never tracked.");
                         builder.SetPositiveButton("OK", OkAction);
                         var disclaimer = builder.Create();
 
