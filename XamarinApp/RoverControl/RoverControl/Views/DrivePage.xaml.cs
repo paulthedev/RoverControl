@@ -165,9 +165,9 @@ namespace RoverControl.Views
                 Task.Run(() => CommandService.SendCommand());
             }
         }
-        private async Task StartBatteryPolling()
+        private void StartBatteryPolling()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(15), () =>
             {
                 if (BleService.connection.IsSuccessful() && isInView)
                 {
@@ -195,7 +195,7 @@ namespace RoverControl.Views
                         this.BattLevel = BattLevel;
                     }
 
-                    if (Math.Abs(this.BattLevel - BattLevel) < 10)//Reading correct // Kalman filtering
+                    if (Math.Abs(this.BattLevel - BattLevel) < 10)//Reading correct
                     {
                         this.BattLevel = BattLevel;
                         if (BattLevel > 60)
