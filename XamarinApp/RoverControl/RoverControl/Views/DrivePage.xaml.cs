@@ -41,22 +41,9 @@ namespace RoverControl.Views
             isInView = true;
             if (BleService.connection.IsSuccessful())
             {
-                _ = ReadBattery();
-                _ = ReadBattery();//Bug in ESP32 sends calculted data on second call
+                Task.Run(() => ReadBattery());
             }
-            Device.StartTimer(TimeSpan.FromSeconds(30), () =>
-            {
-                if (BleService.connection.IsSuccessful() && isInView)
-                {
-                    _ = ReadBattery();
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            });
+            Task.Run(() => StartBatteryPolling());
         }
 
         #region Navigation
@@ -67,7 +54,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Down = 0;
             Down.IsEnabled = false;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => Task.Run(() => CommandService.SendCommand()));
         }
 
         private void Up_Released(object sender, EventArgs e)
@@ -76,7 +63,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Up = 0;
             Down.IsEnabled = true;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Down_Pressed(object sender, EventArgs e)
@@ -86,7 +73,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Down = 1;
             Up.IsEnabled = false;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Down_Released(object sender, EventArgs e)
@@ -95,7 +82,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Down = 0;
             Up.IsEnabled = true;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Right_Pressed(object sender, EventArgs e)
@@ -105,7 +92,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Left = 0;
             Left.IsEnabled = false;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Right_Released(object sender, EventArgs e)
@@ -114,7 +101,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Right = 0;
             Left.IsEnabled = true;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Left_Pressed(object sender, EventArgs e)
@@ -124,7 +111,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Left = 1;
             Right.IsEnabled = false;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Left_Released(object sender, EventArgs e)
@@ -133,7 +120,7 @@ namespace RoverControl.Views
             CommandService.roverCommand.Left = 0;
             Right.IsEnabled = true;
             Vibration.Vibrate(vDuration);
-            CommandService.SendCommand();
+            Task.Run(() => CommandService.SendCommand());
         }
 
         private void Accleration_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -150,14 +137,14 @@ namespace RoverControl.Views
                 Right.IsEnabled = false;
                 Left.IsEnabled = false;
                 isTiltEnabled = true;
-                sensor.ToggleSensor();
+                Task.Run(() => sensor.ToggleSensor());
             }
             else
             {
                 Right.IsEnabled = true;
                 Left.IsEnabled = true;
                 isTiltEnabled = false;
-                sensor.ToggleSensor();
+                Task.Run(() => sensor.ToggleSensor());
             }
         }
 
@@ -168,15 +155,31 @@ namespace RoverControl.Views
                 CommandService.roverCommand.HeadLights = 1;
                 Vibration.Vibrate(vDuration);
                 Light.Source = "LightsOn";
-                CommandService.SendCommand();
+                Task.Run(() => CommandService.SendCommand());
             }
             else
             {
                 CommandService.roverCommand.HeadLights = 0;
                 Vibration.Vibrate(vDuration);
                 Light.Source = "LightsOff";
-                CommandService.SendCommand();
+                Task.Run(() => CommandService.SendCommand());
             }
+        }
+        private async Task StartBatteryPolling()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(30), () =>
+            {
+                if (BleService.connection.IsSuccessful() && isInView)
+                {
+                    Task.Run(() => ReadBattery());
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            });
         }
 
         private async Task ReadBattery()

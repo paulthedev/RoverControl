@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using nexus.protocols.ble;
 using nexus.protocols.ble.scan;
 using RoverControl.Services;
+using System.Threading.Tasks;
 
 namespace RoverControl.Views
 {
@@ -20,10 +21,10 @@ namespace RoverControl.Views
             {
                 BleService.bleAdapter.EnableAdapter();
             }
-            _ = BleService.ScanForDevices();
+            Task.Run(() => BleService.ScanForDevices());
             DeviceList.RefreshCommand = new Command(() =>
             {
-                RefreshList();
+                Task.Run(() => RefreshList());
                 DeviceList.IsRefreshing = false;
             });
         }
@@ -36,12 +37,19 @@ namespace RoverControl.Views
         private void RefreshList()
         {
             if (!BleService.isScanning)
-                _ = BleService.ScanForDevices();
+            {
+                Task.Run(() => BleService.ScanForDevices());
+            }    
         }
 
-        private async void DeviceList_ItemTapped(object sender, SelectedItemChangedEventArgs e)
+        private void DeviceList_ItemTapped(object sender, SelectedItemChangedEventArgs e)
         {
-            BleService.connection = await BleService.bleAdapter.ConnectToDevice((IBlePeripheral)e.SelectedItem);
+            Task.Run(() => ConnectToDevice((IBlePeripheral)e.SelectedItem));
+        }
+
+        private async Task ConnectToDevice(IBlePeripheral blePeripheral)
+        {
+            BleService.connection = await BleService.bleAdapter.ConnectToDevice(blePeripheral);
             if (BleService.connection.IsSuccessful())
             {
                 BleService.gattServer = BleService.connection.GattServer;
