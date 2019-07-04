@@ -25,6 +25,12 @@ namespace RoverControl.Views
         {
             InitializeComponent();
             Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Light.BackgroundColor = Color.Transparent;
+            if(DeviceDisplay.MainDisplayInfo.Height <= 1080)
+            {
+                Up.HeightRequest = Down.HeightRequest = Left.HeightRequest = Right.HeightRequest = 80;
+                Up.WidthRequest = Down.WidthRequest = Left.WidthRequest = Right.WidthRequest = 80;
+                Accleration.WidthRequest = 350;
+            }
         }
 
         protected override void OnAppearing()
