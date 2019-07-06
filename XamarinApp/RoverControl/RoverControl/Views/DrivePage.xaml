@@ -19,9 +19,9 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid x:Name="LayoutRoot" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Grid x:Name="LayoutRoot" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1.7*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -40,9 +40,9 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ImageButton x:Name="Left" Source="{StaticResource ButtonIcon}" Pressed="Left_Pressed" Released="Left_Released" Rotation="90" Grid.Column="0"  Grid.Row="0" Aspect="Fill" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"/>
-                <ImageButton x:Name="Right" Source="{StaticResource ButtonIcon}" Pressed="Right_Pressed" Released="Right_Released" Rotation="-90" Grid.Column="1" Grid.Row="0" Aspect="Fill" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"/>
-                <ImageButton x:Name="Light" Source="LightsOff" Clicked="Light_Toggle" Grid.Column="2" Grid.Row="0" Aspect="Fill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <ImageButton x:Name="Left" Source="{StaticResource ButtonIcon}" Pressed="Left_Pressed" Released="Left_Released" Rotation="90" Grid.Column="0"  Grid.Row="0" HeightRequest="100" WidthRequest="100" Aspect="Fill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <ImageButton x:Name="Right" Source="{StaticResource ButtonIcon}" Pressed="Right_Pressed" Released="Right_Released" Rotation="-90" Grid.Column="1" Grid.Row="0" HeightRequest="100" WidthRequest="100" Aspect="Fill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <ImageButton x:Name="Light" Source="LightsOff" Clicked="Light_Toggle" Grid.Column="2" Grid.Row="0" HeightRequest="80" WidthRequest="54" Aspect="Fill" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                 <Switch x:Name="Tilt" Grid.Column="0" Grid.Row="1" Toggled="Tilt_Toggled" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                 <Label Text="Enable Tilt" FontSize="{StaticResource fontSizeMedium}" TextColor="{StaticResource TextColor}" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="CenterAndExpand" Grid.Column="1" Grid.Row="1" />
             </Grid>
@@ -51,7 +51,7 @@
                     <ColumnDefinition Width="1.5*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <ImageButton x:Name="Up" Source="{StaticResource ButtonIcon}" Pressed="Up_Pressed" Released="Up_Released" Rotation="180" Grid.Column="1"  Grid.Row="0" Aspect="Fill"/>
+                <ImageButton x:Name="Up" Source="{StaticResource ButtonIcon}" Pressed="Up_Pressed" Released="Up_Released" Rotation="180" Grid.Column="1"  Grid.Row="0" HeightRequest="100" WidthRequest="100" Aspect="Fill"/>
             </Grid>
             <Grid x:Name="BottomRight" Grid.Row="1" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>
@@ -62,8 +62,8 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Image x:Name="Battery" Source="" Grid.Column="0" Grid.Row="0" HeightRequest="70" WidthRequest="70" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Aspect="Fill" />
-                <ImageButton x:Name="Down" Source="{StaticResource ButtonIcon}" Pressed="Down_Pressed" Released="Down_Released"  Grid.Column="1" Grid.Row="0" Aspect="Fill"/>
+                <Image x:Name="Battery" Source="" Grid.Column="0" Grid.Row="0" HeightRequest="60" WidthRequest="60" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Aspect="Fill" />
+                <ImageButton x:Name="Down" Source="{StaticResource ButtonIcon}" Pressed="Down_Pressed" Released="Down_Released"  Grid.Column="1" Grid.Row="0" HeightRequest="100" WidthRequest="100" Aspect="Fill"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

@@ -25,20 +25,22 @@ namespace RoverControl.Views
         {
             InitializeComponent();
             Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Light.BackgroundColor = Color.Transparent;
-
-            //Dynamic UI Element Sizes
-            Up.HeightRequest = Down.HeightRequest = Left.HeightRequest = Right.HeightRequest = DeviceDisplay.MainDisplayInfo.Width * 0.050;
-            Up.WidthRequest = Down.WidthRequest = Left.WidthRequest = Right.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * 0.050;
-            Accleration.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * 0.200;
-            Light.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * 0.031;
-            Light.HeightRequest = DeviceDisplay.MainDisplayInfo.Width * 0.045;
-            Battery.WidthRequest = DeviceDisplay.MainDisplayInfo.Width * 0.033;
-            Battery.HeightRequest = DeviceDisplay.MainDisplayInfo.Width * 0.033;
         }
 
         protected override void OnAppearing()
         {
             isInView = true;
+
+            if (DeviceDisplay.MainDisplayInfo.Height <= 1080 && (DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Height) < 1.8)
+            {
+                Up.HeightRequest = Down.HeightRequest = Left.HeightRequest = Right.HeightRequest = 80;
+                Up.WidthRequest = Down.WidthRequest = Left.WidthRequest = Right.WidthRequest = 80;
+                Light.WidthRequest = 50;
+                Light.HeightRequest = 70;
+                Battery.HeightRequest = Battery.WidthRequest = 50;
+                Accleration.WidthRequest = 350;
+            }
+            
             if (BleService.connection.IsSuccessful())
             {
                 Task.Run(() => ReadBattery());
