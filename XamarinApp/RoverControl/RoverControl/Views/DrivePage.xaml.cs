@@ -20,6 +20,7 @@ namespace RoverControl.Views
         private static SensorService sensor = new SensorService();
         private bool isInView = false;
         private int BattLevel = 0;
+        private static bool isBatteryPolling = false;
 
         public DrivePage()
         {
@@ -45,7 +46,10 @@ namespace RoverControl.Views
             {
                 Task.Run(() => ReadBattery());
             }
-            Task.Run(() => StartBatteryPolling());
+            if (!isBatteryPolling)
+            {
+                Task.Run(() => StartBatteryPolling());
+            }
         }
 
         #region Navigation
@@ -174,10 +178,12 @@ namespace RoverControl.Views
                 if (BleService.connection.IsSuccessful() && isInView)
                 {
                     Task.Run(() => ReadBattery());
+                    isBatteryPolling = true;
                     return true;
                 }
                 else
                 {
+                    isBatteryPolling = false;
                     return false;
                 }
 
