@@ -43,7 +43,7 @@ namespace RoverControl.Views
 
             if (BleService.connection.IsSuccessful())
             {
-                Task.Run(() => ReadBattery());
+                ReadBattery();
             }
             if (!isBatteryPolling)
             {
