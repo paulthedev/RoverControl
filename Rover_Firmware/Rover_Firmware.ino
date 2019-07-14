@@ -26,6 +26,7 @@ class BattInfoCallbacks: public BLECharacteristicCallbacks {
       char BattLevel[10];
       sprintf(BattLevel,"%4.0f",calculateBattLevel(VBAT, 3.2f, 4.2f));
       pCharacteristic->setValue(BattLevel);
+      pCharacteristic->notify();
     }
     
     //Asymmetric sigmoidal approximation
