@@ -20,17 +20,12 @@ namespace RoverControl.Views
         private static SensorService sensor = new SensorService();
         private bool isInView = false;
         private int BattLevel = 0;
+        private static bool isBatteryPolling = false;
 
         public DrivePage()
         {
             InitializeComponent();
             Up.BackgroundColor = Down.BackgroundColor = Left.BackgroundColor = Right.BackgroundColor = Light.BackgroundColor = Color.Transparent;
-        }
-
-        protected override void OnAppearing()
-        {
-            isInView = true;
-
             if (DeviceDisplay.MainDisplayInfo.Height <= 1080 && (DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Height) < 1.8)
             {
                 Up.HeightRequest = Down.HeightRequest = Left.HeightRequest = Right.HeightRequest = 80;
@@ -40,12 +35,20 @@ namespace RoverControl.Views
                 Battery.HeightRequest = Battery.WidthRequest = 50;
                 Accleration.WidthRequest = 350;
             }
-            
+        }
+
+        protected override void OnAppearing()
+        {
+            isInView = true;
+
             if (BleService.connection.IsSuccessful())
             {
-                Task.Run(() => ReadBattery());
+                ReadBattery();
             }
-            Task.Run(() => StartBatteryPolling());
+            if (!isBatteryPolling)
+            {
+                Task.Run(() => StartBatteryPolling());
+            }
         }
 
         #region Navigation
@@ -173,18 +176,20 @@ namespace RoverControl.Views
             {
                 if (BleService.connection.IsSuccessful() && isInView)
                 {
-                    Task.Run(() => ReadBattery());
+                    ReadBattery();
+                    isBatteryPolling = true;
                     return true;
                 }
                 else
                 {
+                    isBatteryPolling = false;
                     return false;
                 }
 
             });
         }
 
-        private async Task ReadBattery()
+        private async void ReadBattery()
         {
             try
             {
