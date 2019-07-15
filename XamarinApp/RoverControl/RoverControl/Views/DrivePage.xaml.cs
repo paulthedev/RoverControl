@@ -172,7 +172,7 @@ namespace RoverControl.Views
         }
         private void StartBatteryPolling()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(15), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(5), () =>
             {
                 if (BleService.connection.IsSuccessful() && isInView)
                 {
