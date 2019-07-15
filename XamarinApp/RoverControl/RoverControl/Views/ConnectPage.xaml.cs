@@ -49,11 +49,16 @@ namespace RoverControl.Views
 
         private async Task ConnectToDevice(IBlePeripheral blePeripheral)
         {
+            this.IsBusy = true;
+            await BleService.connection.GattServer.Disconnect();
             BleService.connection = await BleService.bleAdapter.ConnectToDevice(blePeripheral);
+            this.IsBusy = false;
             if (BleService.connection.IsSuccessful())
             {
                 BleService.gattServer = BleService.connection.GattServer;
+                await DisplayAlert("","Connected to "+blePeripheral.Advertisement.DeviceName,"Ok");
             }
+            
         }
     }
 }
