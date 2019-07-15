@@ -42,9 +42,9 @@ namespace RoverControl.Views
             }    
         }
 
-        private void DeviceList_ItemTapped(object sender, SelectedItemChangedEventArgs e)
+        private void DeviceList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            Task.Run(() => ConnectToDevice((IBlePeripheral)e.SelectedItem));
+            Task.Run(() => ConnectToDevice((IBlePeripheral)e.Item));
         }
 
         private async Task ConnectToDevice(IBlePeripheral blePeripheral)
