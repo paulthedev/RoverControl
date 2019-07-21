@@ -1,6 +1,6 @@
 # RoverControl
 
-Project converts a RC car with rear wheel drive and front wheel steering to a Bluetooth enabled one.
+Project converts an RC car with rear wheel drive and front wheel steering to a Bluetooth enabled one.
 
 <h3>Parts list:</h3>
 <ul>
