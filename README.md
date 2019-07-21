@@ -12,5 +12,5 @@ Project converts a RC car with rear wheel drive and front wheel steering to a Bl
 
 <h3>Wiring Diagram:</h3>
 
-![alt text](https://github.com/paulthedev/RoverControl/blob/master/Wiring_Diagram_ESP32_TB6612FNG/RoverSchematic.png)
+![alt text](https://github.com/paulthedev/RoverControl/blob/master/Wiring_Diagram_ESP32_TB6612FNG/RoverWiring.png)
 
