@@ -3,7 +3,7 @@
 Project converts an RC car with rear wheel drive and front wheel steering to a Bluetooth enabled one.
 App is Xamarin based, uses BLE GATT profile to connect to the rover.
 
-<h3>Parts list:</h3>
+<h3>Component list:</h3>
 <ul>
 <li>ESP32-Devkit-v1 wireless MCU</li>
 <li>TB6612FNG motor driver</li>
