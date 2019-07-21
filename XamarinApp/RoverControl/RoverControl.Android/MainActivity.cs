@@ -10,6 +10,7 @@ using nexus.protocols.ble;
 using Android.Support.V4.App;
 using Android;
 using Android.Content;
+using Acr.UserDialogs;
 
 namespace RoverControl.Droid
 {
@@ -59,6 +60,8 @@ namespace RoverControl.Droid
             // additional Obtain() methods on BluetoothLowEnergyAdapter if you have more specific needs (e.g. if you
             // need to support devices with multiple Bluetooth adapters)
             var bluetooth = BluetoothLowEnergyAdapter.ObtainDefaultAdapter(ApplicationContext);
+
+            UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

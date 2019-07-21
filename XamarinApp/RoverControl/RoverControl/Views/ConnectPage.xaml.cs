@@ -5,6 +5,7 @@ using nexus.protocols.ble;
 using nexus.protocols.ble.scan;
 using RoverControl.Services;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 
 namespace RoverControl.Views
 {
@@ -49,16 +50,19 @@ namespace RoverControl.Views
 
         private async Task ConnectToDevice(IBlePeripheral blePeripheral)
         {
-            this.IsBusy = true;
-            await BleService.connection.GattServer.Disconnect();
-            BleService.connection = await BleService.bleAdapter.ConnectToDevice(blePeripheral);
-            this.IsBusy = false;
+            using (UserDialogs.Instance.Loading("Connecting",null,null,true,MaskType.Black))
+            {
+                BleService.gattServer = null;
+                BleService.connection = await BleService.bleAdapter.ConnectToDevice(blePeripheral);
+            }
             if (BleService.connection.IsSuccessful())
             {
                 BleService.gattServer = BleService.connection.GattServer;
-                await DisplayAlert("","Connected to "+blePeripheral.Advertisement.DeviceName,"Ok");
             }
-            
+
+            ToastConfig toastConfig = new ToastConfig("connected to "+ blePeripheral.Advertisement.DeviceName);
+            toastConfig.SetDuration(2000);
+            UserDialogs.Instance.Toast(toastConfig);
         }
     }
 }
