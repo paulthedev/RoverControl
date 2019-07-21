@@ -10,6 +10,7 @@ Project converts a RC car with rear wheel drive and front wheel steering to a Bl
 <li>5v Boost converter (2 pcs.)(should have shottky diodes built in)</li>
 <li>18650 lithium battery (you can use any other lithium battery you like).</li>
 <li>18650 Battery Holder (skip if you are not using 18650).</li>
+</ul>
 
 <h3>Wiring Diagram:</h3>
 
