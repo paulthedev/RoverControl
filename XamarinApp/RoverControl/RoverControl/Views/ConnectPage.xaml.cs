@@ -37,10 +37,12 @@ namespace RoverControl.Views
 
         private void RefreshList()
         {
-            if (!BleService.isScanning)
+            if (BleService.bleAdapter.AdapterCanBeEnabled && BleService.bleAdapter.CurrentState.IsDisabledOrDisabling())
             {
-                Task.Run(() => BleService.ScanForDevices());
-            }    
+                BleService.bleAdapter.EnableAdapter();
+            }
+
+            Task.Run(() => BleService.ScanForDevices());
         }
 
         private void DeviceList_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -50,19 +52,31 @@ namespace RoverControl.Views
 
         private async Task ConnectToDevice(IBlePeripheral blePeripheral)
         {
-            using (UserDialogs.Instance.Loading("Connecting",null,null,true,MaskType.Black))
+            BleService.gattServer = null;
+            ToastConfig toastConfig;
+
+            int timeout = 5000;
+            Task task = EstablishConnection(blePeripheral);
+            UserDialogs.Instance.ShowLoading("Connecting", MaskType.Black);
+            if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
             {
-                BleService.gattServer = null;
-                BleService.connection = await BleService.bleAdapter.ConnectToDevice(blePeripheral);
+                UserDialogs.Instance.HideLoading();
+                toastConfig = new ToastConfig("Connected to " + blePeripheral.Advertisement.DeviceName);
             }
-            if (BleService.connection.IsSuccessful())
+            else
             {
-                BleService.gattServer = BleService.connection.GattServer;
+                UserDialogs.Instance.HideLoading();
+                toastConfig = new ToastConfig("Couldnot connect, is the device turned on?");
             }
 
-            ToastConfig toastConfig = new ToastConfig("connected to "+ blePeripheral.Advertisement.DeviceName);
             toastConfig.SetDuration(2000);
             UserDialogs.Instance.Toast(toastConfig);
+        }
+
+        private async Task EstablishConnection(IBlePeripheral blePeripheral)
+        {
+            BleService.connection = await BleService.bleAdapter.ConnectToDevice(blePeripheral);
+            BleService.gattServer = BleService.connection.GattServer;
         }
     }
 }

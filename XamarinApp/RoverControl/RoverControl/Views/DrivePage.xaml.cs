@@ -150,6 +150,11 @@ namespace RoverControl.Views
                 Left.IsEnabled = true;
                 isTiltEnabled = false;
                 Task.Run(() => sensor.ToggleSensor());
+
+                //Reset Steering on Tilt Disable
+                CommandService.roverCommand.Right = 0;
+                CommandService.roverCommand.Left = 0;
+                Task.Run(() => CommandService.SendCommand());
             }
         }
 

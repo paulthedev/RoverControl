@@ -22,8 +22,6 @@ namespace RoverControl.Services
         public static BlePeripheralConnectionRequest connection;
         public static ObservableCollection<IBlePeripheral> devices = new ObservableCollection<IBlePeripheral>();
 
-        public static bool isScanning = false;
-
         //Stores SHA1 hashes of BT Peripheral adresses 
         private static List<string> hashTable = new List<string>();
 
@@ -37,7 +35,7 @@ namespace RoverControl.Services
         public static async void WriteToDevice(string msg)
         {
             Debug.Write(msg);
-            if (connection.IsSuccessful())
+            if (gattServer != null)
             {
                 try
                 {
@@ -56,7 +54,7 @@ namespace RoverControl.Services
         public static async Task<string> ReadFromDevice()
         {
             string msg = "err";
-            if (connection.IsSuccessful())
+            if (gattServer != null)
             {
                 try
                 {
@@ -76,7 +74,6 @@ namespace RoverControl.Services
 
         public static async Task ScanForDevices()
         {
-            isScanning = true;
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             await bleAdapter.ScanForBroadcasts(
                // providing ScanSettings is optional
@@ -92,7 +89,7 @@ namespace RoverControl.Services
                    {
                        // peripherals must advertise at-least-one of any GUIDs in this list
                        //This is how we know its one of our rover
-                       AdvertisedServiceIsInList = new List<Guid>() { Service },
+                       AdvertisedServiceIsInList = new List<Guid>() { Service }
                    },
 
                    // ignore repeated advertisements from the same device during this scan
@@ -108,7 +105,6 @@ namespace RoverControl.Services
                // If you omit this argument, the scan will timeout after BluetoothLowEnergyUtils.DefaultScanTimeout
                cts.Token
             );
-            isScanning = false;
         }
 
         private static bool IsUniqueAddress(byte[] byteArray)

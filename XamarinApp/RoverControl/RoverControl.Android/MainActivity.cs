@@ -1,10 +1,7 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.Views;
-using Android.Widget;
 using Android.OS;
 using nexus.protocols.ble;
 using Android.Support.V4.App;
@@ -45,40 +42,26 @@ namespace RoverControl.Droid
                 }
             }
 
+            //Set UI to Full Screen
+            SetImmersiveUI();
 
-            View decorView = Window.DecorView;
-            var uiOptions = (int)decorView.SystemUiVisibility;
-            var newUiOptions = (int)uiOptions;
+            //This line is required to Enable/Disable Bluetooth
+            BluetoothLowEnergyAdapter.Init(this);
+            //Get Bluuetooth adapter that is passed to Xamarin.Forms project
+            var bluetoothAdapter = BluetoothLowEnergyAdapter.ObtainDefaultAdapter(ApplicationContext);
 
-            newUiOptions |= (int)SystemUiFlags.Fullscreen;
-            newUiOptions |= (int)SystemUiFlags.HideNavigation;
-            newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
-
-            decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
-
-            // Obtain the bluetooth adapter so we can pass it into our (shared-code) Xamarin Forms app. There are
-            // additional Obtain() methods on BluetoothLowEnergyAdapter if you have more specific needs (e.g. if you
-            // need to support devices with multiple Bluetooth adapters)
-            var bluetooth = BluetoothLowEnergyAdapter.ObtainDefaultAdapter(ApplicationContext);
-
+            //Initialize ACR UserDialogs
             UserDialogs.Init(this);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App(bluetooth));
+            LoadApplication(new App(bluetoothAdapter));
         }
 
         protected override void OnResume()
         {
-            View decorView = Window.DecorView;
-            var uiOptions = (int)decorView.SystemUiVisibility;
-            var newUiOptions = (int)uiOptions;
-
-            newUiOptions |= (int)SystemUiFlags.Fullscreen;
-            newUiOptions |= (int)SystemUiFlags.HideNavigation;
-            newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
-
-            decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
+            //Set UI to Full Screen
+            SetImmersiveUI();
 
             base.OnResume();
         }
@@ -87,6 +70,20 @@ namespace RoverControl.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public void SetImmersiveUI()
+        {
+            View decorView = Window.DecorView;
+            var uiOptions = (int)decorView.SystemUiVisibility;
+            var newUiOptions = (int)uiOptions;
+
+            newUiOptions |= (int)SystemUiFlags.LowProfile;
+            newUiOptions |= (int)SystemUiFlags.Fullscreen;
+            newUiOptions |= (int)SystemUiFlags.HideNavigation;
+            newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
+
+            decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
         }
     }
 }
