@@ -21,5 +21,3 @@ App is Xamarin based, uses BLE GATT profile to connect to the rover.
 <h3>Screenshots:</h3>
 
 <img src="https://github.com/paulthedev/RoverControl/blob/master/AppScreenshots/MainPage.png" width="320"> <img src="https://github.com/paulthedev/RoverControl/blob/master/AppScreenshots/DeviceSelectionPage.png" width="320">
-
-<a href="https://github.com/paulthedev/RoverControl/tree/master/CompiledApp">Download the app</a>
