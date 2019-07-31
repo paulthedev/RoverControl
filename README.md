@@ -1,4 +1,4 @@
-# RoverControl
+<img src = "https://github.com/paulthedev/RoverControl/blob/master/Images/Logo.png" width="70"/><h3>RoverControl</h3>
 
 Project converts an RC car with rear wheel drive and front wheel steering to a Bluetooth enabled one.
 App is Xamarin based, uses BLE GATT profile to connect to the rover.
