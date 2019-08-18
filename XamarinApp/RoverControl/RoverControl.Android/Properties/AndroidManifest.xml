@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.paul.RoverControl" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2" android:versionName="1.1" package="com.paul.RoverControl" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
 	<application android:label="RoverControl.Android"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<uses-permission android:name="android.permission.BLUETOOTH" />
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
 </manifest>

@@ -57,7 +57,7 @@ namespace RoverControl.Views
 
             int timeout = 5000;
             Task task = EstablishConnection(blePeripheral);
-            UserDialogs.Instance.ShowLoading("Connecting", MaskType.Black);
+            UserDialogs.Instance.ShowLoading("Connecting", MaskType.Black, true);
             if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
             {
                 UserDialogs.Instance.HideLoading();
@@ -69,7 +69,7 @@ namespace RoverControl.Views
                 toastConfig = new ToastConfig("Couldnot connect, is the device turned on?");
             }
 
-            toastConfig.SetDuration(2000);
+            toastConfig.SetDuration(3000);
             UserDialogs.Instance.Toast(toastConfig);
         }
 
