@@ -8,6 +8,8 @@ using Android.Support.V4.App;
 using Android;
 using Android.Content;
 using Acr.UserDialogs;
+using System;
+using Android.Util;
 
 namespace RoverControl.Droid
 {
@@ -28,7 +30,7 @@ namespace RoverControl.Droid
                 {
                     using (var builder = new AlertDialog.Builder(this))
                     {
-                        builder.SetMessage("Some android OEMs bundle bluetooth functionality with location, bluetooth doesn't work without it. Your location is never tracked.");
+                        builder.SetMessage("Often android OEMs bundle bluetooth functionality with location, bluetooth doesn't work without it. Your location is never tracked.");
                         builder.SetPositiveButton("OK", OkAction);
                         var disclaimer = builder.Create();
 
@@ -46,8 +48,28 @@ namespace RoverControl.Droid
             SetImmersiveUI();
 
             //This line is required to Enable/Disable Bluetooth
-            BluetoothLowEnergyAdapter.Init(this);
-            //Get Bluuetooth adapter that is passed to Xamarin.Forms project
+            try
+            {
+                BluetoothLowEnergyAdapter.Init(this);
+            }
+            catch (Exception ex)
+            {
+                Log.Debug("RoverControl",ex.Message);
+                using (var builder = new AlertDialog.Builder(this))
+                {
+                    builder.SetMessage("Couldn't access bluetooth. Check if the app has required permissions.");
+                    builder.SetPositiveButton("OK", OkAction);
+                    var disclaimer = builder.Create();
+
+                    disclaimer.Show();
+                }
+
+                void OkAction(object sender, DialogClickEventArgs e)
+                {
+                    this.FinishAffinity();
+                }
+            }
+            //Get Bluetooth adapter that is passed to Xamarin.Forms project
             var bluetoothAdapter = BluetoothLowEnergyAdapter.ObtainDefaultAdapter(ApplicationContext);
 
             //Initialize ACR UserDialogs

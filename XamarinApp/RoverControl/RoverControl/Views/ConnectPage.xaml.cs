@@ -57,7 +57,8 @@ namespace RoverControl.Views
 
             int timeout = 5000;
             Task task = EstablishConnection(blePeripheral);
-            UserDialogs.Instance.ShowLoading("Connecting", MaskType.Black, true);
+            ProgressDialogConfig.ShowsImmersive = true;
+            UserDialogs.Instance.ShowLoading("Connecting", MaskType.Black);
             if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
             {
                 UserDialogs.Instance.HideLoading();
