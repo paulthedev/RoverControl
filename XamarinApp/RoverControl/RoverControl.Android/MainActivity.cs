@@ -55,21 +55,9 @@ namespace RoverControl.Droid
             catch (Exception ex)
             {
                 Log.Debug("RoverControl",ex.Message);
-                using (var builder = new AlertDialog.Builder(this))
-                {
-                    builder.SetMessage("Couldn't access bluetooth. Check if the app has required permissions.");
-                    builder.SetPositiveButton("OK", OkAction);
-                    var disclaimer = builder.Create();
-
-                    disclaimer.Show();
-                }
-
-                void OkAction(object sender, DialogClickEventArgs e)
-                {
-                    this.FinishAffinity();
-                }
             }
-            //Get Bluetooth adapter that is passed to Xamarin.Forms project
+
+            //Get Bluetooth adapter
             var bluetoothAdapter = BluetoothLowEnergyAdapter.ObtainDefaultAdapter(ApplicationContext);
 
             //Initialize ACR UserDialogs

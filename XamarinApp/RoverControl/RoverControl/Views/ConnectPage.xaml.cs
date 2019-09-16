@@ -18,11 +18,6 @@ namespace RoverControl.Views
 
             DeviceList.ItemsSource = BleService.devices;
 
-            if (BleService.bleAdapter.AdapterCanBeEnabled && BleService.bleAdapter.CurrentState.IsDisabledOrDisabling())
-            {
-                BleService.bleAdapter.EnableAdapter();
-            }
-            Task.Run(() => BleService.ScanForDevices());
             DeviceList.RefreshCommand = new Command(() =>
             {
                 Task.Run(() => RefreshList());
@@ -32,7 +27,7 @@ namespace RoverControl.Views
 
         protected override void OnAppearing()
         {
-            RefreshList();
+            Task.Run(() => RefreshList());
         }
 
         private void RefreshList()
@@ -57,7 +52,7 @@ namespace RoverControl.Views
 
             int timeout = 5000;
             Task task = EstablishConnection(blePeripheral);
-            ProgressDialogConfig.ShowsImmersive = true;
+            ProgressDialogConfig.UseAndroidImmersiveMode = true;
             UserDialogs.Instance.ShowLoading("Connecting", MaskType.Black);
             if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
             {
