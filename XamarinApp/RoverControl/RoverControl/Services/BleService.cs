@@ -77,7 +77,7 @@ namespace RoverControl.Services
         private static void ToastDeviceDisconnected()
         {
             gattServer = null;
-            var toastConfig = new ToastConfig("Connection lost. Please Reconnect");
+            var toastConfig = new ToastConfig("Connection lost. Please Reconnect.");
             toastConfig.SetDuration(3000);
             UserDialogs.Instance.Toast(toastConfig);
         }
