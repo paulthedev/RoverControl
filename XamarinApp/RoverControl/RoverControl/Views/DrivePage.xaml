@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
             <StackLayout Grid.Column="0"  Grid.Row="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                 <Label Text="Accleration" FontSize="{StaticResource fontSizeMedium}" TextColor="{StaticResource TextColor}" FontAttributes="Bold" FontFamily="Calibri" VerticalOptions="Center" HorizontalOptions="Center"/>
-                <Slider x:Name="Accleration" Minimum="0" Maximum="255" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
+                <Slider x:Name="Accleration" Minimum="0" Maximum="255" ValueChanged="Accleration_ValueChanged" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"/>
             </StackLayout>
             <Grid x:Name="BottomLeft" Grid.Row="1" Grid.Column="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                 <Grid.ColumnDefinitions>

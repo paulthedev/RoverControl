@@ -56,7 +56,6 @@ namespace RoverControl.Views
             Up.Source = "ArrowIconPressed";
             CommandService.roverCommand.Up = 1;
             CommandService.roverCommand.Down = 0;
-            CommandService.roverCommand.RearwheelAccleration = (int)Accleration.Value;
             Down.IsEnabled = false;
             Vibration.Vibrate(vDuration);
             Task.Run(() => Task.Run(() => CommandService.SendCommand()));
@@ -76,7 +75,6 @@ namespace RoverControl.Views
             Down.Source = "ArrowIconPressed";
             CommandService.roverCommand.Up = 0;
             CommandService.roverCommand.Down = 1;
-            CommandService.roverCommand.RearwheelAccleration = (int)Accleration.Value;
             Up.IsEnabled = false;
             Vibration.Vibrate(vDuration);
             Task.Run(() => CommandService.SendCommand());
@@ -127,6 +125,11 @@ namespace RoverControl.Views
             Right.IsEnabled = true;
             Vibration.Vibrate(vDuration);
             Task.Run(() => CommandService.SendCommand());
+        }
+
+        private void Accleration_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            CommandService.roverCommand.RearwheelAccleration = (int)e.NewValue;
         }
         #endregion
 

@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Acr.UserDialogs;
 using nexus.core;
 using nexus.protocols.ble;
 using nexus.protocols.ble.gatt;
@@ -47,6 +47,7 @@ namespace RoverControl.Services
                 catch (GattException ex)
                 {
                     Debug.WriteLine(ex.ToString());
+                    ToastDeviceDisconnected();
                 }
             }
         }
@@ -67,9 +68,18 @@ namespace RoverControl.Services
                 catch (GattException ex)
                 {
                     Debug.WriteLine(ex.ToString());
+                    ToastDeviceDisconnected();
                 }
             }
             return msg;
+        }
+
+        private static void ToastDeviceDisconnected()
+        {
+            gattServer = null;
+            var toastConfig = new ToastConfig("Connection lost. Please Reconnect");
+            toastConfig.SetDuration(3000);
+            UserDialogs.Instance.Toast(toastConfig);
         }
 
         public static async Task ScanForDevices()
